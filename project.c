@@ -31,7 +31,7 @@ int main()
 
     int *array, *array2, n, x, count = 0;
 
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < 100000000; i++) {
         n = rand() % 50 + 1;
         array = rand_array(n);
         array2 = copy_array(array, n);
@@ -186,7 +186,7 @@ int* merge(int *arr1, int *arr2, int n1, int n2)
         merged[i] = arr2[right];
 
     copy_array_to_2nd(merged, arr1, n1);
-    copy_array_to_2nd(merged+n2, arr2, n2);
+    copy_array_to_2nd(merged+n1, arr2, n2);
 
     free(merged);
     //return merged;
