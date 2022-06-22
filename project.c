@@ -31,7 +31,7 @@ int main()
 
     int *array, *array2, n, x, count = 0;
 
-    for (int i = 0; i < 100000000; i++) {
+    for (int i = 0; i < 10000; i++) {
         n = rand() % 50 + 1;
         array = rand_array(n);
         array2 = copy_array(array, n);
@@ -155,8 +155,8 @@ int *mergesort(int *array, int n)
         int half2 = n - half;
         int *left = mergesort(array, half);
         int *right = mergesort(array+half, half2);
-        int *arr = merge(left, right, half, half2);
-        return arr;
+        merge(left, right, half, half2);
+        return array;
     }
 }
 
@@ -185,7 +185,11 @@ int* merge(int *arr1, int *arr2, int n1, int n2)
     for (; right < n2 && i < merged_length; right++, i++)
         merged[i] = arr2[right];
 
-    return merged;
+    copy_array_to_2nd(merged, arr1, n1);
+    copy_array_to_2nd(merged+n2, arr2, n2);
+
+    free(merged);
+    //return merged;
 }
 
 bool isprime(int n)
