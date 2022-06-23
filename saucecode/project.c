@@ -31,7 +31,7 @@ int main()
 
     int *array, *array2, n, x, count = 0;
 
-    for (int i = 0; i < 100000000; i++) {
+    for (int i = 0; i < 10000000; i++) {
         n = rand() % 50 + 1;
         array = rand_array(n);
         array2 = copy_array(array, n);
