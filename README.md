@@ -4,12 +4,12 @@
     id="Analiza empiryczna złożoności algorytmów sortowania i wyszukiwania"></span>**Analiza
     empiryczna złożoności algorytmów sortowania i wyszukiwania**:
     -   dwa z algorytmów:
-        -   <span class="done0"></span>sortowania bąbelkowego (bubble),
-        -   <span class="done4"></span>przez wstawianie (insertion),
-        -   <span class="done4"></span>przez wybór (selection),
+        - [ ]   <span class="done0"></span>sortowania bąbelkowego (bubble),
+        - [X]   <span class="done4"></span>przez wstawianie (insertion),
+        - [X]   <span class="done4"></span>przez wybór (selection),
     -   jeden z algorytmów:
-        -   <span class="done0"></span>szybkiego (quick),
-        -   <span class="done4"></span>przez scalanie (merge):
+        - [ ]   <span class="done0"></span>szybkiego (quick),
+        - [X]   <span class="done4"></span>przez scalanie (merge):
     -   <span class="done0"></span>algorytmy wyszukiwania liniowego i
         binarnego,
     -   trzy typy danych wejściowych: posortowane, posortowane w
