@@ -4,6 +4,10 @@
 #include <time.h>
 #include "arrhelp.c"
 
+#define TEST_NUM 1000000
+#define ARR_SIZE 50
+#define MAX_SIZE 50
+
 #define invert_isort(arr, n) isort(arr, n, isgreater)
 #define iisort(arr, n) isort(arr, n, isless)
 
@@ -31,13 +35,13 @@ int main()
 
     int *array, *array2, n, x, count = 0;
 
-    for (int i = 0; i < 10000000; i++) {
-        n = rand() % 50 + 1;
-        array = rand_array(n);
+    for (int i = 0; i < TEST_NUM; i++) {
+        n = rand() % ARR_SIZE + 1;
+        array = rand_array(n, MAX_SIZE);
         array2 = copy_array(array, n);
 
-        array2 = mergesort(array2, n);
-        /* sssort(array2, n); */
+        /* array2 = mergesort(array2, n); */
+        sssort(array2, n);
 
         if (!testsort(array, array2, n, false))
             count++;
@@ -71,9 +75,9 @@ bool testsort(int *array, int *array_sorted, int n, bool print_succesful)
 
     bool result = (inorder * same);
     if (!result) {
-        /* printf("n is: %s\n", n); */
-        /* print_array(array, n); */
-        /* print_array(array_sorted, n); */
+        printf("n is: %d\n", n);
+        print_array(array, n);
+        print_array(array_sorted, n);
     }
 
     return result;
@@ -124,10 +128,13 @@ bool isless(int *x1, int *x2)
 
 void ssort(int *array, int n, bool (*compare)(int *, int *))
 {
-    for (int i = 0; i < n-1; i++)
+    int i_min = 0;
+    for (int i = 0; i < n-1; i++, i_min = i) {
         for (int j = i+1; j < n; j++) 
-            if ((*compare)(&array[i], &array[j]))
-                swap(&array[i], &array[j]);
+            if ((*compare)(&array[i_min], &array[j]))
+                i_min = j;
+        swap(&array[i], &array[i_min]);
+    }
 }
 
 
