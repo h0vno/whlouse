@@ -39,11 +39,13 @@
     programistycznego itp.,
 -   termin przesłania pliku zip z czterema folderami: 25 czerwca;
     zachęcam do wcześniejszego oddawania programów.
--   <span id="Uwaga"></span>**Uwaga**: to są ogólne założenia zaliczenia
+-   **Uwaga**: to są ogólne założenia zaliczenia
     na ocenę bdb, szczegółowe ustalenia pozostawiam Państwu, wszystkie
     rozsądne ustalenia zaakceptuję, zaakceptuję również rozsądną
     modyfikację powyższych założeń. W przypadku watpliwości zapraszam na
-    konsultacje. Sprawozdanie musi zawierać następujące elementy:
+    konsultacje.
+    
+## <span id="sprawozdanie"></span>Sprawozdanie musi zawierać następujące elementy:
     -   sformułowanie problemu,
     -   opis problemu,
     -   opis rozwiązania,
@@ -54,8 +56,8 @@ Sprawozdanie powinno być adresowane do czytelników z ogólną wiedzą
 informatyczną, opisy muszą byc jednozncze. Źródła programu należy
 komentować jednoznacznie, ale oszczędnie.
 
-<span id="Do każdego algorytmu zapisać"></span>**Do każdego algorytmu
-zapisać**:
+# Todo
+## <span id="Do każdego algorytmu zapisać"></span> Przy każdym algorytmie zapisać
 
 -   złożoność pamięciowa
 -   złożoność obliczeniowa
