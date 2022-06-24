@@ -5,15 +5,12 @@
 #include "arrhelp.c"
 #include "project.h"
 
-#define TEST_NUM 1
-#define ARR_SIZE 10
+#define TEST_NUM 100000
+#define ARR_SIZE 1000
 #define MAX_SIZE 50
 #define DEBUG true
-#define N 5
+#define N 0
 
-void TopDownMergeSort(int *a, int n);
-void TopDownSplitMerge(int B[], int iBegin, int iEnd, int A[]);
-void TopDownMerge(int A[], int iBegin, int iMiddle, int iEnd, int B[]);
 
 int main()
 {
@@ -24,98 +21,40 @@ int main()
     return 0;
 }
 
-
-// Array A[] has the items to sort; array B[] is a work array.
-void TopDownMergeSort(int *a, int n)
+void mergesort(int *a, int n)
 {
-    int *b = copy_array(a, n);       // one time copy of a[] to b[]
-    TopDownSplitMerge(b, 0, n, a);   // sort data from b[] into a[]
+    int *b = copy_array(a, n);
+    mergesplit(b, 0, n, a);
     free(b);
 }
 
-// Split A[] into 2 runs, sort both runs into B[], merge both runs from B[] to A[]
-// iBegin is inclusive; iEnd is exclusive (A[iEnd] is not in the set).
-void TopDownSplitMerge(int B[], int iBegin, int iEnd, int A[])
+// sort data from array b to array a
+void mergesplit(int *b, int istart, int iend, int *a)
 {
-    if (iEnd - iBegin <= 1)                     // if run size == 1
-        return;                                 //   consider it sorted
-    // split the run longer than 1 item into halves
-    int iMiddle = (iEnd + iBegin) / 2;              // iMiddle = mid point
-    // recursively sort both runs from array A[] into B[]
-    TopDownSplitMerge(A, iBegin,  iMiddle, B);  // sort the left  run
-    TopDownSplitMerge(A, iMiddle,    iEnd, B);  // sort the right run
-    // merge the resulting runs from array B[] into A[]
-    TopDownMerge(B, iBegin, iMiddle, iEnd, A);
+    if (iend - istart < 2)
+        return;
+    int imiddle = (istart + iend) / 2;
+    mergesplit(a, istart, imiddle, b);
+    mergesplit(a, imiddle, iend, b);
+    // merge array b into a
+    merge(b, istart, imiddle, iend, a);
 }
 
-//  Left source half is A[ iBegin:iMiddle-1].
-// Right source half is A[iMiddle:iEnd-1   ].
-// Result is            B[ iBegin:iEnd-1   ].
-void TopDownMerge(int A[], int iBegin, int iMiddle, int iEnd, int B[])
+
+void merge(int *a, int istart, int imiddle, int iend, int *b)
 {
-    int i = iBegin, j = iMiddle;
- 
-    // While there are elements in the left or right runs...
-    for (int k = iBegin; k < iEnd; k++) {
-        // If left run head exists and is <= existing right run head.
-        if (i < iMiddle && (j >= iEnd || A[i] <= A[j])) {
-            B[k] = A[i];
-            i = i + 1;
+    int i = istart, j = imiddle;
+    for (int k = istart; k < iend; k++) {
+        if (i < imiddle && (j >= iend || a[i] <= a[j])) {
+            b[k] = a[i];
+            i++;
         } else {
-            B[k] = A[j];
-            j = j + 1;
+            b[k] = a[j];
+            j++;
         }
     }
 }
 
-bool test()
-{
-    int *array, *array2, n, x, count = 0;
-
-    for (int i = 0; i < TEST_NUM; i++) {
-        n = rand() % ARR_SIZE + 1;
-        if (N)
-            n = N;
-        array = rand_array(n, MAX_SIZE);
-        array2 = copy_array(array, n);
-
-        mergesortfull(array2, n);
-        /* sssort(array2, n); */
-
-        if (!testsort(array, array2, n, DEBUG))
-            count++;
-
-        // test search
-        /* x = rand() % n; */
-        /* if(linear_search(array2[x], array2, n) == -1) { */
-        /* if(!binary_search(array2[x], array2, n)) { */
-        /*     printf("\nsearch for array[%d] == %d failed\n", x, array2[x]); */
-        /*     print_array(array2, n); */
-        /*     count++; */
-        /* } */
-
-        free(array);
-        free(array2);
-    }
-
-    printf("count: %d\n", count);
-}
-
-bool testsort(int *array, int *array_sorted, int n, bool print_succesful)
-{
-
-    bool inorder = print_hierarchy(array_sorted, n, false);
-    bool same = cmp_array(array, array_sorted, n) ;
-
-    bool result = (inorder * same);
-    if (!result && print_succesful) {
-        printf("n is: %d\n", n);
-        print_array(array, n);
-        print_array(array_sorted, n);
-    }
-
-    return result;
-}
 
 int linear_search(int value, int *array, int n)
 {
@@ -124,6 +63,7 @@ int linear_search(int value, int *array, int n)
             return i;
     return -1;
 }
+
 
 bool binary_search(int value, int *array, int n)
 {
@@ -141,6 +81,7 @@ bool binary_search(int value, int *array, int n)
 
     return true;
 }
+
 
 void swap(int *x1, int *x2)
 {
@@ -185,3 +126,51 @@ void isort(int *array, int n, bool (*compare)(int *, int *))
 }
 
 
+bool test()
+{
+    int *array, *array2, n, x, count = 0;
+
+    for (int i = 0; i < TEST_NUM; i++) {
+        n = rand() % ARR_SIZE + 1;
+        if (N)
+            n = N;
+        array = rand_array(n, MAX_SIZE);
+        array2 = copy_array(array, n);
+
+        mergesort(array2, n);
+        /* sssort(array2, n); */
+
+        /* if (!testsort(array, array2, n, DEBUG)) */
+        /*     count++; */
+
+        // test search
+        /* x = rand() % n; */
+        /* if(linear_search(array2[x], array2, n) == -1) { */
+        /* if(!binary_search(array2[x], array2, n)) { */
+        /*     printf("\nsearch for array[%d] == %d failed\n", x, array2[x]); */
+        /*     print_array(array2, n); */
+        /*     count++; */
+        /* } */
+
+        free(array);
+        free(array2);
+    }
+
+    printf("count: %d\n", count);
+}
+
+bool testsort(int *array, int *array_sorted, int n, bool print_succesful)
+{
+
+    bool inorder = print_hierarchy(array_sorted, n, false);
+    bool same = cmp_array(array, array_sorted, n) ;
+
+    bool result = (inorder * same);
+    if (!result && print_succesful) {
+        printf("n is: %d\n", n);
+        print_array(array, n);
+        print_array(array_sorted, n);
+    }
+
+    return result;
+}

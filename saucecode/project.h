@@ -7,9 +7,10 @@
 
 void isort(int *array, int n, bool (*compare)(int *, int *));
 void ssort(int *array, int n, bool (*compare)(int *, int *));
-void mergesort(int *array, int n, int *harray);
-void mergesortfull(int *array, int n);
-void merge(int *arr1, int middle, int end, int *harray);
+
+void mergesort(int *a, int n);
+void mergesplit(int B[], int istart, int iend, int A[]);
+void merge(int A[], int istart, int imiddle, int iend, int B[]);
 
 bool test();
 bool testsort(int *arr1, int *arr2, int n, bool print_successful);
