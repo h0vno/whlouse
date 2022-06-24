@@ -11,118 +11,63 @@
 #define DEBUG true
 #define N 5
 
-int *ga_array, *gb_array, g_n;
+void TopDownMergeSort(int *a, int n);
+void TopDownSplitMerge(int B[], int iBegin, int iEnd, int A[]);
+void TopDownMerge(int A[], int iBegin, int iMiddle, int iEnd, int B[]);
 
 int main()
 {
     srand(time(NULL));
 
-    int array[] = {19, 16, 15, 13, 22, 7};
-
-    /* merge(array, 5, 5, harray); */
-    /* print_array(array, 10); */
-    /* print_array(harray, 10); */
     test();
-    mergesortfull(array, 6);
 
     return 0;
 }
 
 
-void mergesort(int *array, int n, int *harray)
+// Array A[] has the items to sort; array B[] is a work array.
+void TopDownMergeSort(int *a, int n)
 {
-    if (n == 1) 
-        return;
-    else {
-        int middle = n / 2;
-        int end = n - middle;
-        mergesort(harray, middle, array);
-        mergesort(harray+middle, end, array+middle);
-        merge(array, middle, end, harray);
-    }
+    int *b = copy_array(a, n);       // one time copy of a[] to b[]
+    TopDownSplitMerge(b, 0, n, a);   // sort data from b[] into a[]
+    free(b);
 }
 
-// how do I implement merge?
-// it probably doesn't really make sense to put two arrays
-// in here like they are seperate
-//
-// there is need to know index of second one and length of two
-// but syntax like that suggests there are two different arrays
-// when there is only one continous
-void merge(int *arr1, int middle, int end, int *harray)
+// Split A[] into 2 runs, sort both runs into B[], merge both runs from B[] to A[]
+// iBegin is inclusive; iEnd is exclusive (A[iEnd] is not in the set).
+void TopDownSplitMerge(int B[], int iBegin, int iEnd, int A[])
 {
-    /* copy_array_to_2nd(arr1, harray, middle); */
-    int *arr2;
-    arr2 = arr1 + middle;
+    if (iEnd - iBegin <= 1)                     // if run size == 1
+        return;                                 //   consider it sorted
+    // split the run longer than 1 item into halves
+    int iMiddle = (iEnd + iBegin) / 2;              // iMiddle = mid point
+    // recursively sort both runs from array A[] into B[]
+    TopDownSplitMerge(A, iBegin,  iMiddle, B);  // sort the left  run
+    TopDownSplitMerge(A, iMiddle,    iEnd, B);  // sort the right run
+    // merge the resulting runs from array B[] into A[]
+    TopDownMerge(B, iBegin, iMiddle, iEnd, A);
+}
 
-    // merge from harray(arr1) and arr1+middle to arr1
-    int i, left, right;
-    for (i = left = right = 0; left < middle && right < end; i++) {
-        if (arr1[left] < arr2[right]) {
-            harray[i] = arr1[left];
-            left++;
+//  Left source half is A[ iBegin:iMiddle-1].
+// Right source half is A[iMiddle:iEnd-1   ].
+// Result is            B[ iBegin:iEnd-1   ].
+void TopDownMerge(int A[], int iBegin, int iMiddle, int iEnd, int B[])
+{
+    int i = iBegin, j = iMiddle;
+ 
+    // While there are elements in the left or right runs...
+    for (int k = iBegin; k < iEnd; k++) {
+        // If left run head exists and is <= existing right run head.
+        if (i < iMiddle && (j >= iEnd || A[i] <= A[j])) {
+            B[k] = A[i];
+            i = i + 1;
         } else {
-            harray[i] = arr2[right];
-            right++;
+            B[k] = A[j];
+            j = j + 1;
         }
     }
-
-    // move the rest of arr to merged
-    // one of two activates, depends from left or right less than n
-    for (; left < middle && i < middle+end; left++, i++)
-        harray[i] = arr1[left];
-    
-    for (; right < end && i < middle+end; right++, i++)
-        harray[i] = arr2[right];
 }
 
-
-void mergesortfull(int *array, int n)
-{
-    int *harray;
-    harray = copy_array(array, n);
-
-    ga_array = array;
-    gb_array = harray;
-    g_n = n;
-
-    mergesort(array, n, harray);
-    free(harray);
-}
-
-
-bool test()
-{
-    int *array, *array2, n, x, count = 0;
-
-    for (int i = 0; i < TEST_NUM; i++) {
-        n = rand() % ARR_SIZE + 1;
-        if (N)
-            n = N;
-        array = rand_array(n, MAX_SIZE);
-        array2 = copy_array(array, n);
-
-        mergesortfull(array2, n);
-        /* sssort(array2, n); */
-
-        if (!testsort(array, array2, n, DEBUG))
-            count++;
-
-        // test search
-        /* x = rand() % n; */
-        /* if(linear_search(array2[x], array2, n) == -1) { */
-        /* if(!binary_search(array2[x], array2, n)) { */
-        /*     printf("\nsearch for array[%d] == %d failed\n", x, array2[x]); */
-        /*     print_array(array2, n); */
-        /*     count++; */
-        /* } */
-
-        free(array);
-        free(array2);
-    }
-
-    printf("count: %d\n", count);
-}
 
 bool testsort(int *array, int *array_sorted, int n, bool print_succesful)
 {
