@@ -76,19 +76,8 @@ void bintree_change(int value, int change, struct numcount *node)
 
 int* rand_array(int n, int max_size);
 void print_array(int *array, int n);
-int* copy_array(int* array, int n);
 bool copy_array_to_2nd(int* array, int* array2, int n);
 bool cmp_array(int *array, int *array2, int n);
-
-
-int* copy_array(int* array, int n)
-{
-    int *array_copy;
-    array_copy = malloc(sizeof(int)*n);
-    for (int i = 0; i < n; i++)
-        array_copy[i] = array[i];
-    return array_copy;
-}
 
 bool copy_array_to_2nd(int* array, int* array2, int n)
 {
