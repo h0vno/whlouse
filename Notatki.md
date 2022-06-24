@@ -1,9 +1,11 @@
 
 ##  przykłady:
  przykład problemu:
+ 
  ![problem01](images/problem01-night.png) 
  
- przykład problemu wież Hanoi
+ przykład problemu wież Hanoi:
+ 
  ![wieże hanoi](images/przyklad-problem-wiez-night.png) 
  ![wieże hanoi](images/przyklad-problem-wiez2-night.png) 
  
@@ -18,7 +20,7 @@ musimy coś zrobić
    nieskończenie wiele, </br>
    zadanie to szczegóły dotyczące wejścia funkcji?
    
- * przykładowe zadania różnych problemów:
+ ### przykładowe zadania różnych problemów:
  ![problem02](images/problem02-night.png) 
  
  ## algorytm
@@ -41,6 +43,7 @@ musimy coś zrobić
  ## operacje dominujące
  ![operacje dominujące](images/operacje-dominujace01-night.png) 
  ![operacje dominujące przykład](images/operacje-dominujace02-night.png) 
+ 
  operacje w ostatniej linijce zaznaczone na czerwono nie są operacjami
  dominującymi ponieważ nie zawsze się wykonają
  
@@ -77,9 +80,10 @@ musimy coś zrobić
  ### złożoność czasowa średnia
  ![złożoność czasowa średnia](images/zlozonosc-algorytmu08-night.png) 
  ![złożoność czasowa średnia 2](images/zlozonosc-algorytmu09-night.png) 
+ 
  tzn. **złożoność czasowa średnia = liczba wykonań operacji dominującej**
  
- <a name="bubble-przyklad01">złożonośc czasowa średnia</a>
+ #### <a name="bubble-przyklad01">złożoność czasowa średnia - przykład, bubble:</a>
  ![bubble](images/zlozonosc-algorytmu10-night.png) 
  
  ## Podsumowanie
