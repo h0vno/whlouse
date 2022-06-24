@@ -3,47 +3,109 @@
 #include <stdbool.h>
 #include <time.h>
 #include "arrhelp.c"
+#include "project.h"
 
-#define TEST_NUM 100000
-#define ARR_SIZE 500
+#define TEST_NUM 1
+#define ARR_SIZE 10
 #define MAX_SIZE 50
+#define DEBUG true
+#define N 5
 
-#define invert_isort(arr, n) isort(arr, n, isgreater)
-#define iisort(arr, n) isort(arr, n, isless)
-
-#define invert_ssort(arr, n) ssort(arr, n, isless)
-#define sssort(arr, n) ssort(arr, n, isgreater)
-
-void isort(int *array, int n, bool (*compare)(int *, int *));
-void ssort(int *array, int n, bool (*compare)(int *, int *));
-int *mergesort(int *array, int n);
-int *merge(int *array1, int *array2, int n1, int n2);
-
-bool testsort(int *arr1, int *arr2, int n, bool print_successful);
-
-int linear_search(int value, int *array, int n);
-bool binary_search(int value, int *array, int n);
-
-bool isprime(int n);
-void swap(int *x1, int *x2);
-bool isless(int *x1, int *x2);
-bool isgreater(int *x1, int *x2);
+int *ga_array, *gb_array, g_n;
 
 int main()
 {
     srand(time(NULL));
 
+    int array[] = {19, 16, 15, 13, 22, 7};
+
+    /* merge(array, 5, 5, harray); */
+    /* print_array(array, 10); */
+    /* print_array(harray, 10); */
+    test();
+    mergesortfull(array, 6);
+
+    return 0;
+}
+
+
+void mergesort(int *array, int n, int *harray)
+{
+    if (n == 1) 
+        return;
+    else {
+        int middle = n / 2;
+        int end = n - middle;
+        mergesort(harray, middle, array);
+        mergesort(harray+middle, end, array+middle);
+        merge(array, middle, end, harray);
+    }
+}
+
+// how do I implement merge?
+// it probably doesn't really make sense to put two arrays
+// in here like they are seperate
+//
+// there is need to know index of second one and length of two
+// but syntax like that suggests there are two different arrays
+// when there is only one continous
+void merge(int *arr1, int middle, int end, int *harray)
+{
+    /* copy_array_to_2nd(arr1, harray, middle); */
+    int *arr2;
+    arr2 = arr1 + middle;
+
+    // merge from harray(arr1) and arr1+middle to arr1
+    int i, left, right;
+    for (i = left = right = 0; left < middle && right < end; i++) {
+        if (arr1[left] < arr2[right]) {
+            harray[i] = arr1[left];
+            left++;
+        } else {
+            harray[i] = arr2[right];
+            right++;
+        }
+    }
+
+    // move the rest of arr to merged
+    // one of two activates, depends from left or right less than n
+    for (; left < middle && i < middle+end; left++, i++)
+        harray[i] = arr1[left];
+    
+    for (; right < end && i < middle+end; right++, i++)
+        harray[i] = arr2[right];
+}
+
+
+void mergesortfull(int *array, int n)
+{
+    int *harray;
+    harray = copy_array(array, n);
+
+    ga_array = array;
+    gb_array = harray;
+    g_n = n;
+
+    mergesort(array, n, harray);
+    free(harray);
+}
+
+
+bool test()
+{
     int *array, *array2, n, x, count = 0;
 
     for (int i = 0; i < TEST_NUM; i++) {
         n = rand() % ARR_SIZE + 1;
+        if (N)
+            n = N;
         array = rand_array(n, MAX_SIZE);
         array2 = copy_array(array, n);
 
-        array2 = mergesort(array2, n);
+        mergesortfull(array2, n);
         /* sssort(array2, n); */
 
-        if (!testsort(array, array2, n, false))
+        if (!testsort(array, array2, n, DEBUG))
             count++;
 
         // test search
@@ -60,8 +122,6 @@ int main()
     }
 
     printf("count: %d\n", count);
-
-    return 0;
 }
 
 bool testsort(int *array, int *array_sorted, int n, bool print_succesful)
@@ -70,11 +130,8 @@ bool testsort(int *array, int *array_sorted, int n, bool print_succesful)
     bool inorder = print_hierarchy(array_sorted, n, false);
     bool same = cmp_array(array, array_sorted, n) ;
 
-    if (print_succesful)
-        printf("arrays elements are %s\n", same ? "the same" : "not same");
-
     bool result = (inorder * same);
-    if (!result) {
+    if (!result && print_succesful) {
         printf("n is: %d\n", n);
         print_array(array, n);
         print_array(array_sorted, n);
@@ -151,49 +208,3 @@ void isort(int *array, int n, bool (*compare)(int *, int *))
 }
 
 
-int *mergesort(int *array, int n)
-{
-    // sort the smallest possible arrays
-    if (n == 1) 
-        return array;
-    else {
-        int half = n / 2;
-        int half2 = n - half;
-        int *left = mergesort(array, half);
-        int *right = mergesort(array+half, half2);
-        merge(left, right, half, half2);
-        return array;
-    }
-}
-
-int* merge(int *arr1, int *arr2, int n1, int n2)
-{
-    int merged_length = n1 + n2;
-    int *merged;
-    merged = malloc(sizeof(int) * (merged_length));
-
-    int i, left, right;
-    for (i = left = right = 0; left < n1 && right < n2; i++) {
-        if (arr1[left] < arr2[right]) {
-            merged[i] = arr1[left];
-            left++;
-        } else {
-            merged[i] = arr2[right];
-            right++;
-        }
-    }
-
-    // move the rest of arr to merged
-    // one of two activates, depends from left or right less than n
-    for (; left < n1 && i < merged_length; left++, i++)
-        merged[i] = arr1[left];
-    
-    for (; right < n2 && i < merged_length; right++, i++)
-        merged[i] = arr2[right];
-
-    copy_array_to_2nd(merged, arr1, n1);
-    copy_array_to_2nd(merged+n1, arr2, n2);
-
-    free(merged);
-    //return merged;
-}
