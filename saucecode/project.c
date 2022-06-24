@@ -4,8 +4,8 @@
 #include <time.h>
 #include "arrhelp.c"
 
-#define TEST_NUM 1000000
-#define ARR_SIZE 50
+#define TEST_NUM 100000
+#define ARR_SIZE 500
 #define MAX_SIZE 50
 
 #define invert_isort(arr, n) isort(arr, n, isgreater)
@@ -40,8 +40,8 @@ int main()
         array = rand_array(n, MAX_SIZE);
         array2 = copy_array(array, n);
 
-        /* array2 = mergesort(array2, n); */
-        sssort(array2, n);
+        array2 = mergesort(array2, n);
+        /* sssort(array2, n); */
 
         if (!testsort(array, array2, n, false))
             count++;
@@ -154,10 +154,9 @@ void isort(int *array, int n, bool (*compare)(int *, int *))
 int *mergesort(int *array, int n)
 {
     // sort the smallest possible arrays
-    if (isprime(n)) {
-        sssort(array, n);
+    if (n == 1) 
         return array;
-    } else {
+    else {
         int half = n / 2;
         int half2 = n - half;
         int *left = mergesort(array, half);
@@ -197,13 +196,4 @@ int* merge(int *arr1, int *arr2, int n1, int n2)
 
     free(merged);
     //return merged;
-}
-
-bool isprime(int n)
-{
-    if (n == 2 || n == 3 || n == 5 || n == 7 || n == 11)
-        return true;
-    for (int i = 2; i < n; i++)
-        if (n % i == 0) return false;
-    return true;
 }
