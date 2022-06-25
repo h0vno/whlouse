@@ -11,13 +11,6 @@
 
 int op_e, op_d;
 
-void print_array(int *array, int n)
-{
-    for (int i = 0; i < n; i++)
-        printf("%d ", array[i]);
-    printf("\n");
-}
-
 int main()
 {
     srand(time(NULL));
