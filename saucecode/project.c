@@ -50,8 +50,8 @@ void mergesort(int *a, int n)
 void mergesplit(int *b, int istart, int iend, int *a)
 {
     if (iend - istart < 2)
-        return; // compare, subtract
-    int imiddle = (istart + iend) / 2; //add, divide, save
+        return; op_e += 2;
+    int imiddle = (istart + iend) / 2; op_e += 3;
     mergesplit(a, istart, imiddle, b); 
     mergesplit(a, imiddle, iend, b);
     // merge array b into a
@@ -61,43 +61,51 @@ void mergesplit(int *b, int istart, int iend, int *a)
 
 void merge(int *a, int istart, int imiddle, int iend, int *b)
 {
-    int i = istart, j = imiddle; // przypisanie x3
-    for (int k = istart; k < iend; k++) { 
+    int i = istart, j = imiddle; op_e += 2;
+    for (int k = istart, op_e++; k < iend; k++, op_e += 2) { 
+        op_e += 7; 
         if (i < imiddle && (j >= iend || a[i] <= a[j])) {
-            b[k] = a[i]; // przypisanie, dostęp do tablicy
-            i++; // inkrementacja
+            b[k] = a[i]; op_e += 3;
+            i++;         op_e++;
         } else {
-            b[k] = a[j]; // przypisanie, dostęp do tablicy
-            j++; // inkrementacja
+            b[k] = a[j]; op_e += 3;
+            j++;         op_e++;
         }
-        //  inkremetacja, porównanie
     }
 }
 
 
 int linear_search(int value, int *array, int n)
 {
-    for (int i = 0; i < n; i++) //przypisanie
-        if (array[i] == value) // dostep do tablicy, porownanie
+    for (int i = 0, op_e++; i < n; i++, op_e += 2) {
+        op_e += 2;
+        if (array[i] == value)
             return i;
-            // inkrementacja i porownanie
+    }
+        
     return -1;
 }
 
 
 bool binary_search(int value, int *array, int n)
 {
-    if (n == 1)
+    op_e++;
+    if (n == 1) {
+        op_e += 5;
         return (array[0] == value || array[1] == value);
+    }
 
     int left = n / 2;
     int right = (n % 2) ? left + 1 : left;
+    op_e += 6;
 
-    if (array[left] > value)
+    op_e++; if (array[left] > value)
         return binary_search(value, array, left);
 
-    if (array[left] < value)
+    op_e++; if (array[left] < value) {
+        op_e++;
         return binary_search(value, array+left, right);
+    }
 
     return true;
 }
@@ -105,30 +113,25 @@ bool binary_search(int value, int *array, int n)
 
 void swap(int *x1, int *x2)
 {
-    int temp = *x1; // przypisanie
-    *x1 = *x2; // przypisanie
-    *x2 = temp; // przypisanie
-}
-
-bool isgreater(int *x1, int *x2)
-{
-    return *x1 > *x2;
-}
-
-bool isless(int *x1, int *x2)
-{
-    return *x1 < *x2;
+    int temp = *x1; 
+    *x1 = *x2; 
+    *x2 = temp;
+    op_e += 3;
 }
 
 
 void ssort(int *array, int n, bool (*compare)(int *, int *))
 {
-    int i_min = 0;
-    for (int i = 0; i < n-1; i++, i_min = i) {
-        for (int j = i+1; j < n; j++) 
-            if (array[i_min] < &array[j])
-                i_min = j;
-        swap(&array[i], &array[i_min]);
+    int i_min = 0; op_e++;
+    for (int i = 0, op_e++; i < n-1; i++, i_min = i, op_e+=3) {
+        op_e+=2;
+        for (int j = i+1; j < n; j++, op_e+=2)  {
+            op_e += 3;
+            if (array[i_min] < array[j]) {
+                i_min = j; op_e++;
+            }
+        }
+        swap(&array[i], &array[i_min]); op_e+=2;
     }
 }
 
@@ -136,12 +139,14 @@ void ssort(int *array, int n, bool (*compare)(int *, int *))
 void isort(int *array, int n, bool (*compare)(int *, int *))
 {
     int temp, j;
-    for (int i = 1; i < n; i++) {
-        temp = array[i];
-        for (j = i-1; j >= 0 && temp < array[j]; j--) 
-            array[j+1] = array[j];
+    for (int i = 1, op_e++; i < n; i++, op_e+=2) {
+        temp = array[i]; op_e += 2;
+        op_e+=2;
+        for (j = i-1; j >= 0 && temp < array[j]; j--, op_e+=5) {
+            array[j+1] = array[j]; op_e+=4;
+        }
         
-        array[j+1] = temp;
+        array[j+1] = temp; op_e+=2;
     }
 }
 
