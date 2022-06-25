@@ -2,23 +2,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
-#include "arrhelp.c"
 #include "project.h"
-
-#define TEST_NUM 100000
-#define ARR_SIZE 1000
-#define MAX_SIZE 50
-#define DEBUG true
-#define N 0
 
 int op_e, op_d;
 
 int main()
 {
     srand(time(NULL));
-
-    test();
-
     return 0;
 }
 
@@ -30,9 +20,9 @@ bool clean_counter()
 
 int* copy_array(int* array, int n)
 {
-    int *array_copy; op_e++;
+    int *array_copy, i; 
     array_copy = malloc(sizeof(int)*n); op_e += 2;
-    for (int i = 0, op_e++; i < n; i++, op_e += 2) {
+    for (i = 0, op_e++; i < n; i++, op_e += 2) {
         array_copy[i] = array[i]; op_e += 3;
     }
     return array_copy;
@@ -61,8 +51,8 @@ void mergesplit(int *b, int istart, int iend, int *a)
 
 void merge(int *a, int istart, int imiddle, int iend, int *b)
 {
-    int i = istart, j = imiddle; op_e += 2;
-    for (int k = istart, op_e++; k < iend; k++, op_e += 2) { 
+    int i = istart, j = imiddle, k; op_e += 2;
+    for (k = istart, op_e++; k < iend; k++, op_e += 2) { 
         op_e += 7; 
         if (i < imiddle && (j >= iend || a[i] <= a[j])) {
             b[k] = a[i]; op_e += 3;
@@ -77,7 +67,8 @@ void merge(int *a, int istart, int imiddle, int iend, int *b)
 
 int linear_search(int value, int *array, int n)
 {
-    for (int i = 0, op_e++; i < n; i++, op_e += 2) {
+    int i;
+    for (i = 0, op_e++; i < n; i++, op_e += 2) {
         op_e += 2;
         if (array[i] == value)
             return i;
@@ -120,10 +111,10 @@ void swap(int *x1, int *x2)
 }
 
 
-void ssort(int *array, int n, bool (*compare)(int *, int *))
+void selection_sort(int *array, int n)
 {
-    int i_min = 0; op_e++;
-    for (int i = 0, op_e++; i < n-1; i++, i_min = i, op_e+=3) {
+    int i, i_min = 0; op_e++;
+    for (i = 0, op_e++; i < n-1; i++, i_min = i, op_e+=3) {
         op_e+=2;
         for (int j = i+1; j < n; j++, op_e+=2)  {
             op_e += 3;
@@ -136,10 +127,10 @@ void ssort(int *array, int n, bool (*compare)(int *, int *))
 }
 
 
-void isort(int *array, int n, bool (*compare)(int *, int *))
+void invert_sort(int *array, int n)
 {
-    int temp, j;
-    for (int i = 1, op_e++; i < n; i++, op_e+=2) {
+    int temp, j, i;
+    for (i = 1, op_e++; i < n; i++, op_e+=2) {
         temp = array[i]; op_e += 2;
         op_e+=2;
         for (j = i-1; j >= 0 && temp < array[j]; j--, op_e+=5) {
@@ -151,51 +142,13 @@ void isort(int *array, int n, bool (*compare)(int *, int *))
 }
 
 
-bool test()
+int* rand_array(int n, int max_size)
 {
-    int *array, *array2, n, x, count = 0;
+    int *array;
+    array = malloc(n * sizeof (int));
 
-    for (int i = 0; i < TEST_NUM; i++) {
-        n = rand() % ARR_SIZE + 1;
-        if (N)
-            n = N;
-        array = rand_array(n, MAX_SIZE);
-        array2 = copy_array(array, n);
+    for (int i = 0; i < n; i++)
+        array[i] = rand() % max_size;
 
-        mergesort(array2, n);
-        /* sssort(array2, n); */
-
-        /* if (!testsort(array, array2, n, DEBUG)) */
-        /*     count++; */
-
-        // test search
-        /* x = rand() % n; */
-        /* if(linear_search(array2[x], array2, n) == -1) { */
-        /* if(!binary_search(array2[x], array2, n)) { */
-        /*     printf("\nsearch for array[%d] == %d failed\n", x, array2[x]); */
-        /*     print_array(array2, n); */
-        /*     count++; */
-        /* } */
-
-        free(array);
-        free(array2);
-    }
-
-    printf("count: %d\n", count);
-}
-
-bool testsort(int *array, int *array_sorted, int n, bool print_succesful)
-{
-
-    bool inorder = print_hierarchy(array_sorted, n, false);
-    bool same = cmp_array(array, array_sorted, n) ;
-
-    bool result = (inorder * same);
-    if (!result && print_succesful) {
-        printf("n is: %d\n", n);
-        print_array(array, n);
-        print_array(array_sorted, n);
-    }
-
-    return result;
+    return array;
 }

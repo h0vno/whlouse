@@ -27,6 +27,8 @@ bool print_hierarchy(int *array, int n, bool print_succesful);
 bool isle(int *x1, int *x2);
 bool isge(int *x1, int *x2);
 
+bool test();
+bool testsort(int *arr1, int *arr2, int n, bool print_successful);
 
 bool print_hierarchy(int *array, int n, bool print_succesful)
 {
@@ -74,7 +76,6 @@ void bintree_change(int value, int change, struct numcount *node)
     }
 }
 
-int* rand_array(int n, int max_size);
 void print_array(int *array, int n);
 bool copy_array_to_2nd(int* array, int* array2, int n);
 bool cmp_array(int *array, int *array2, int n);
@@ -126,16 +127,6 @@ bool bintree_count_equal(struct numcount *node, int value)
 }
 
 
-int* rand_array(int n, int max_size)
-{
-    int *array;
-    array = malloc(n * sizeof (int));
-
-    for (int i = 0; i < n; i++)
-        array[i] = rand() % max_size;
-
-    return array;
-}
 
 void print_array(int *array, int n)
 {
