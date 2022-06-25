@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <time.h>
+
 #define TEST_NUM 100000
 #define ARR_SIZE 1000
 #define MAX_SIZE 50
