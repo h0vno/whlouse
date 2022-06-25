@@ -76,7 +76,6 @@ void bintree_change(int value, int change, struct numcount *node)
     }
 }
 
-void print_array(int *array, int n);
 bool copy_array_to_2nd(int* array, int* array2, int n);
 bool cmp_array(int *array, int *array2, int n);
 
@@ -127,7 +126,6 @@ bool bintree_count_equal(struct numcount *node, int value)
 }
 
 
-
 void print_array(int *array, int n)
 {
     for (int i = 0; i < n; i++)
@@ -135,6 +133,7 @@ void print_array(int *array, int n)
 
     printf("\n");
 }
+
 
 bool isge(int *x1, int *x2)
 {
