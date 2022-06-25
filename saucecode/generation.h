@@ -1,6 +1,6 @@
 #define RAND_SIZE 50
 #define RAND_SIZE_MODIFY 25
-#define TEST_SIZE 300
+#define TEST_SIZE 25
 
 int op_e, op_d;
 
@@ -11,7 +11,7 @@ void run_sort_test(void (*sort)(int *, int), char *sort_name, int test_num)
 {
     clear_files(sort_name);  // wyczyść poprzednie wyniki programu
     int *array;
-    for (int n = 1; n < test_num; n++) {
+    for (int n = 1; n <= test_num; n++) {
         array = rand_array(n);
         (*sort)(array, n);  // merge_sort dla run_sort_test(merge_sort, ... )
         save_results(n, sort_name, "random");
@@ -113,7 +113,8 @@ int* sorted_array_full(int n, bool inversed)
                                 
     // wypełnij tablicę rosnącymi/malejącymi wartościami
     for (int i = 0; i < n; i++) {
-        (*modify_num)(&x);  // aktywuje rand_increment_num lub rand_decrement_num
+        (*modify_num)(&x);  // aktywuje rand_increment_num
+                            //  lub rand_decrement_num
         array[i] = x;
     }
 
