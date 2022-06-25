@@ -7,6 +7,7 @@
 
 #define RAND_SIZE 50
 #define RAND_SIZE_MODIFY 25
+#define TEST_SIZE 3000
 
 int op_e, op_d;
 
@@ -20,28 +21,24 @@ void print_array(int *array, int n)
 int main()
 {
     srand(time(NULL));
-    int *array, n = 20;
 
-    // todo in main:
-    // for every sort function
-    // generate 3 types of arrays with sizes 1n, 2n, 3n ...
-    // and run sort on each of them
-    // with saving values of op_e and op_d
-    //
-    // constants:
-    // * generated types of array
-    // * list of sorting functions
-    run_sort_test(merge_sort, "merge_sort", 2);
-    /* run_sort_test(); */
-    /* run_sort_test(); */
+    clear_files("selection_sort");
+    clear_files("insert_sort");
+    clear_files("merge_sort");
+
+    run_sort_test(selection_sort, "selection_sort", TEST_SIZE);
+    run_sort_test(insert_sort, "insert_sort", TEST_SIZE);
+    run_sort_test(merge_sort, "merge_sort", TEST_SIZE);
 
     return 0;
 }
 
 // run (*sort) function number of test_num on 3 different data types
 // save everything to file
-void run_sort_test(void (*sort)(int, int *), char *sort_name, int test_num)
+void run_sort_test(void (*sort)(int *, int), char *sort_name, int test_num)
 {
+    clear_files(sort_name);
+    int *array;
     for (int n = 1; n < test_num; n++) {
         array = rand_array(n);
         (*sort)(array, n);
@@ -50,14 +47,37 @@ void run_sort_test(void (*sort)(int, int *), char *sort_name, int test_num)
 
         array = sorted_array_full(n, false);
         (*sort)(array, n);
-        save_results(n, sort_name, "sorted");
+        save_results(n, sort_name, "sort");
         free(array);
 
         array = sorted_array_full(n, true);
         (*sort)(array, n);
-        save_results(n, sort_name, "inversed_sorted");
+        save_results(n, sort_name, "inversed_sort");
         free(array);
     }
+}
+
+void clear_files(char *sort_name)
+{
+    FILE *fp;
+    char filename_t[64] = "../data/", filename[64];
+    strcat(filename_t, sort_name);
+    strcat(filename_t, "-");
+
+    strcpy(filename, filename_t);
+    strcat(filename, "inversed_sort.txt");
+    fp = fopen(filename, "w");
+    fclose(fp);
+    
+    strcpy(filename, filename_t);
+    strcat(filename, "sort.txt");
+    fp = fopen(filename, "w");
+    fclose(fp);
+    
+    strcpy(filename, filename_t);
+    strcat(filename, "random.txt");
+    fp = fopen(filename, "w");
+    fclose(fp);
 }
 
 void save_results(int n, char *sort_name, char *input_type)
@@ -68,11 +88,13 @@ void save_results(int n, char *sort_name, char *input_type)
     strcat(filename, "-");
     strcat(filename, input_type);
     strcat(filename, ".txt");
-    printf("%s\n", filename);
-    // open file for saving
-    // file = open(/data-dir/sort_name-input_type.txt)
-    // write to file
-    // file.append(n op_d op_e)
+
+    // save result to file
+    FILE *fp;
+    fp = fopen(filename, "a");
+    if (fp == NULL) printf("error\n"); // can't open file
+    fprintf(fp, "%d %d %d\n", n, op_d, op_e);
+    fclose(fp);
 
     // reset counters
     op_e = 0;
@@ -209,9 +231,8 @@ void insert_sort(int *array, int n)
 }
 
 
-void mergesort(int *a, int n)
+void merge_sort(int *a, int n)
 {
-    clean_counter();
     int *b = copy_array(a, n); op_e++;
     mergesplit(b, 0, n, a);
     free(b);
