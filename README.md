@@ -60,7 +60,10 @@
 
 --- 
 
-# Informacje o projekcie z wykładów
+# Dostępne informacje o projekcie
+
+* Zliczasz operacje dominujące, opisujesz algorytmy, robisz dokumentacje
+  i w sumie tyle
 
 * **wykład 3**, 01:36:00:
   * Napisać program zliczający liczbę wszystkich operacji elementarnych
@@ -77,12 +80,24 @@
 ---
 
  ## Todo
- ### Program:
- * liczenie operacji - porównanie, przypisanie wartości,
-   deklaracja pamięci
- * złożoność średnia insert sort jest "bardzo trudna",
-   możliwa zmiana na bubble sort
- 
+ * generacja wykresów na podstawie otrzymanych danych
+ * instrukcja kompilacji
+ * sprawozdanie - problemy, rozwiazania, wnioski -
+   algorytmy czy problem przedstawienia algorytmów?
+
+ ### Generacja wyników
+ * liczenie operacji, które to operacje dominujące?
+ * funkcja generująca posortowane i posortowane odwrotnie ciągi
+ * dla każdego algorytmu generowanie tablicy różnych rozmiarów 3 typów,
+   zapisanie wyników w formie:
+   > N=3, random op_e=20 op_d=4; sorted op_e=... ; rsorted ...;
+ * porównać do funkcji algorytmu, np O(n<sup>2</sup>)
+  
+ * operacje dominujące - wykład 3, dzienne, 18:30;
+   wytlumaczenie na koniec
+ * można zliczać kilka operacji dominujących, operacją dominującą
+   może być jedna operacja lub może być zbiór operacji
+ ![przykładowe operacje dominujące](images/operacje-dominujace04.png) 
  
  ### Sprawozdanie:
  * przy każdym algorytmie zapisać:
@@ -97,15 +112,38 @@
 ---
 
 # Sprawozdanie
-## 1. sformułowanie problemu 
-**TODO**: wyszukiwanie i sortowanie?
+1. sformułowanie problemu
+## Analiza empiryczna złożoności algorytmów sortowania i wyszukiwania
+Celem projektu jest napisanie algorytmów wyszukiwania i
+zaprezentowanie ilości operacji elementarnych i dominujących
+w zależności od rozmiaru zadania oraz typu danych.
+
+## 2. opis problemu
+
 1. Problem wyszukiwania
   * Zadaniem jest zbiór elementów i element wyszukiwany.
   * Pytanie - czy element należy do zbioru.
-  * Umieć porównać dwa elementy
+  * Konieczna jest możliwość porównania elementów
+   
 2. Problem sortowania
+  * zadaniem jest skończony ciąg.
 
-## 2. opis problemu
+3. Operacja elementarna to operacje podstawowe, możemy takie wyróżnić
+   czytając kod w języku Assembly.
+   Do operacji elementarnych należą:
+   * operacje matematyczne: + - * / %
+   * operacje logiczne: | & ~ || && !
+   * operacje relacyjne: == != > >= < <=
+   * przypisanie: zmienna = wartość
+   * dostęp do elementu tablicy: tablica[index]
+   * powrót na początek pętli
+
+4. Operacje dominujące - liczba wykonań wszystkich operacji
+   elementarnych może być trudna do wyznaczenia.
+   Dlatego określamy operacje dominujące:
+   są to takie operacje elementarne, że wykonaniu dowolnej operacji
+   elementarnej towarzyszy wykonanie operacji dominującej.
+
 ## 3. opis rozwiązania
 ## 4. prezentacja wyników
 ## 5. wnioski

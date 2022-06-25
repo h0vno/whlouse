@@ -37,8 +37,14 @@ musimy coś zrobić
  których nie da się rozłożyc na prostsze, natomiast niektóre są operacjami
  złożonymi, możemy je rozłożyc na operacje prostsze
  ![lista operacji elementarnych](images/operacje-elementarne01-night.png) 
+ * dodatkowo (operacja pętli) mamy operację skoku, wywołanie funkcji?
+ * operacja dostępu do zmiennej nie jest operacją elementarną,
+   jest prostsza
  ![przykład w algorytmie](images/operacje-elementarne02-night.png) 
  ![przykład w algorytmie - opis](images/operacje-elementarne03-night.png) 
+ 
+ (*) liczba operacji elementarnych w algorytmie </br>
+ (**) liczba wykonań operacji elementarnych w algorytmie
  
  ## operacje dominujące
  ![operacje dominujące](images/operacje-dominujace01-night.png) 
@@ -86,9 +92,25 @@ musimy coś zrobić
  #### <a name="bubble-przyklad01">złożoność czasowa średnia - przykład, bubble:</a>
  ![bubble](images/zlozonosc-algorytmu10-night.png) 
  
+ 
  ## Podsumowanie
  ![podsumowanie](images/podsumowanie31-night.png) 
  
  --- 
   
  # Wykład 4
+
+ ## Merge sort
+ 1:30:00
+ 
+ ![sort](images/mergesort01-night.png) 
+ ![merge](images/mergesort02-night.png) 
+ 
+ --- 
+  
+ # Wykład 5, 6, 7
+ ## struktury danych:
+ * binary tree
+ * FIFO
+ * kopce
+ * grafy
