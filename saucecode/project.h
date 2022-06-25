@@ -4,10 +4,16 @@
 #define DEBUG true
 #define N 0
 
-int* rand_array(int n, int max_size);
+void run_sort_test(void (*sort)(int, int *), char *sort_name, int test_num)
+void save_results(int n, char *sort_name, char *input_type);
+
+int* rand_array(int n);
+int* sorted_array_full(int n, bool inversed);
+void rand_decrement_num(int *x);
+void rand_increment_num(int *x);
 
 void selection_sort(int *array, int n);
-void invert_sort(int *array, int n);
+void insert_sort(int *array, int n);
 
 int* copy_array(int* array, int n);
 void mergesort(int *a, int n);
